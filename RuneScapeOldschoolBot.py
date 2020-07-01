@@ -187,28 +187,15 @@ class Bot:
         time.sleep(1)
 
         y_coordinate = [86, 134, 186, 230]
-        x_coordinate = [67, 122, 179, 231, 283, 335, 390]
+        x_coordinate = [122, 179, 231, 283, 335, 390]
 
         for y in y_coordinate:
+            if y != 86:
+                self.click(67 + self.x_adjust, y + self.y_adjust, normal=True)
+                time.sleep(0.2)
             for x in x_coordinate:
-                if y != 86:
-                    self.click(x + self.x_adjust, y + self.y_adjust, normal=True)
-                    time.sleep(0.2)
-
                 self.click(x + self.x_adjust, y + self.y_adjust, normal=True)
                 time.sleep(0.2)
-                self.click(x + self.x_adjust, y + self.y_adjust, normal=True)
-                time.sleep(0.2)
-                self.click(x + self.x_adjust, y + self.y_adjust, normal=True)
-                time.sleep(0.2)
-                self.click(x + self.x_adjust, y + self.y_adjust, normal=True)
-                time.sleep(0.2)
-                self.click(x + self.x_adjust, y + self.y_adjust, normal=True)
-                time.sleep(0.2)
-                self.click(x + self.x_adjust, y + self.y_adjust, normal=True)
-                time.sleep(0.2)
-                self.click(x + self.x_adjust, y + self.y_adjust, normal=True)
-
 
         self.click(449 + self.x_adjust, 49 + self.y_adjust, normal=True)
 
@@ -216,20 +203,18 @@ class Bot:
 
     def drop_all(self):
         time.sleep(1)
-        y_coordinate = [265, 301, 338, 374, 407, 428]
+        y_coordinate = [228, 265, 301, 338, 374, 407, 428]
+        x_coordinate = [619, 656, 710]
         if self.inventory_bank_check():
-            self.click(619+self.x_adjust, 228+self.y_adjust, drop=True)
-            self.click(656 + self.x_adjust, 228 + self.y_adjust, drop=True)
-            self.click(710 + self.x_adjust, 228 + self.y_adjust, drop=True)
-
             for y in y_coordinate:
-                self.click(576 + self.x_adjust + random.randrange(-5, 5), y + self.y_adjust + random.randrange(0, 4), drop=True)
-                time.sleep(random.random())
-                self.click(619 + self.x_adjust + random.randrange(-5, 5), y + self.y_adjust+ random.randrange(0, 4), drop=True)
-                time.sleep(random.random())
-                self.click(656 + self.x_adjust + random.randrange(-5, 5), y + self.y_adjust+ random.randrange(0, 4), drop=True)
-                time.sleep(random.random())
-                self.click(710 + self.x_adjust + random.randrange(-5, 5), y + self.y_adjust+ random.randrange(0, 4), drop=True)
+                if y != 228:
+                    self.click(576 + self.x_adjust + random.randrange(-5, 5), y + self.y_adjust + random.randrange(0, 4),
+                               drop=True)
+                    time.sleep(random.random())
+                for x in x_coordinate:
+                    self.click(x + self.x_adjust + random.randrange(-5, 5), y + self.y_adjust + random.randrange(0, 4), drop=True)
+                    time.sleep(random.random())
+
 
 
 
@@ -294,6 +279,7 @@ class Bot:
 
 
 
+#Functions for running the bots.
 
 def bot_1():
     #x, y coordinate of upper right corner of Runelite-client
@@ -314,14 +300,6 @@ def bot_2():
         bot.random_ore_12()
         bot.drop_all()
 
-def bot_3():
-    #x, y coordinate of upper right corner of Runelite-client
-    x_adjust = 7
-    y_adjust = 560
-    bot = Bot(x_adjust, y_adjust)
-    while True:
-        bot.random_ore_12()
-        bot.drop_all()
 
 
 
@@ -330,11 +308,10 @@ if __name__ == '__main__':
     threadLock = threading.Lock()
     t1 = threading.Thread(target=bot_1)
     t2 = threading.Thread(target=bot_2)
-    t3 = threading.Thread(target=bot_3)
 
     t1.start()
     t2.start()
-    t3.start()
+
 
 
 
